@@ -1,0 +1,66 @@
+﻿@model LedgerPro.Models.ViewModels.SignupViewModel
+@{
+    Layout = "_AuthLayout";
+    ViewData["Title"] = "Create Account";
+}
+
+<div class="auth-form-header">
+    <h2>Create your account</h2>
+    <p>Start managing your business ledger in a beautiful way.</p>
+</div>
+
+@if (ViewBag.Error != null)
+{
+    <div class="auth-alert error">@ViewBag.Error</div>
+}
+
+<form asp-action="Signup" asp-controller="Account" method="post" id="signupForm" novalidate>
+    @Html.AntiForgeryToken()
+
+    <div class="form-group">
+        <label class="form-label" asp-for="FullName">Full Name</label>
+        <input asp-for="FullName" class="form-control" placeholder="Jane Doe" autocomplete="name" />
+        <span asp-validation-for="FullName" class="field-error"></span>
+    </div>
+
+    <div class="form-group">
+        <label class="form-label" asp-for="Email">Email Address</label>
+        <input asp-for="Email" class="form-control" placeholder="you@example.com" autocomplete="email" />
+        <span asp-validation-for="Email" class="field-error"></span>
+    </div>
+
+    <div class="form-group">
+        <label class="form-label" asp-for="Role">Account Type</label>
+        <select asp-for="Role" class="form-control">
+            <option value="Admin">Business Owner / Admin</option>
+            <option value="Staff">Staff / Cashier</option>
+        </select>
+        <span asp-validation-for="Role" class="field-error"></span>
+    </div>
+
+    <div class="form-group">
+        <label class="form-label" asp-for="Password">Password</label>
+        <div class="password-wrapper">
+            <input asp-for="Password" type="password" class="form-control" placeholder="Minimum 6 characters"
+                   autocomplete="new-password" id="signupPwd" />
+            <button type="button" class="toggle-password" onclick="togglePassword('signupPwd', this)" title="Show/hide password">👁</button>
+        </div>
+        <span asp-validation-for="Password" class="field-error"></span>
+    </div>
+
+    <div class="form-group">
+        <label class="form-label" asp-for="ConfirmPassword">Confirm Password</label>
+        <div class="password-wrapper">
+            <input asp-for="ConfirmPassword" type="password" class="form-control" placeholder="Repeat your password"
+                   autocomplete="new-password" id="signupConfirm" />
+            <button type="button" class="toggle-password" onclick="togglePassword('signupConfirm', this)" title="Show/hide password">👁</button>
+        </div>
+        <span asp-validation-for="ConfirmPassword" class="field-error"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary auth-submit">Create Account</button>
+
+    <p class="auth-footer-text mt-3">
+        Already have an account? <a href="/Account/Login">Sign in</a>
+    </p>
+</form>

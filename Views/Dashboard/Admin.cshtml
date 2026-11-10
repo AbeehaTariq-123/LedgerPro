@@ -1,0 +1,78 @@
+﻿@model LedgerPro.Models.ViewModels.AdminDashboardViewModel
+@{
+    Layout = "_AdminLayout";
+    ViewData["Title"] = "Admin Dashboard";
+    ViewData["Subtitle"] = "Full overview of your business finances";
+}
+
+<div class="stats-grid">
+    <div class="stat-card sage">
+        <div class="stat-label">Total Sales</div>
+        <p class="stat-value">PKR @Model.TotalSales.ToString("N0")</p>
+        <span class="stat-hint">All-time sales revenue</span>
+    </div>
+    <div class="stat-card pink">
+        <div class="stat-label">Total Purchases</div>
+        <p class="stat-value">PKR @Model.TotalPurchases.ToString("N0")</p>
+        <span class="stat-hint">All-time purchases</span>
+    </div>
+    <div class="stat-card terracotta">
+        <div class="stat-label">Outstanding Receivables</div>
+        <p class="stat-value">PKR @Model.OutstandingReceivables.ToString("N0")</p>
+        <span class="stat-hint">Owed by customers</span>
+    </div>
+    <div class="stat-card burgundy">
+        <div class="stat-label">Outstanding Payables</div>
+        <p class="stat-value">PKR @Model.OutstandingPayables.ToString("N0")</p>
+        <span class="stat-hint">Owed to suppliers</span>
+    </div>
+    <div class="stat-card beige">
+        <div class="stat-label">Customers</div>
+        <p class="stat-value">@Model.TotalCustomers</p>
+        <span class="stat-hint">Registered customers</span>
+    </div>
+    <div class="stat-card sage">
+        <div class="stat-label">Suppliers</div>
+        <p class="stat-value">@Model.TotalSuppliers</p>
+        <span class="stat-hint">Active suppliers</span>
+    </div>
+</div>
+
+<div class="two-col">
+    <div class="section-card">
+        <div class="section-header">
+            <h3>Recent Transactions</h3>
+            <a href="/Transaction" class="btn btn-sm btn-outline">View All</a>
+        </div>
+        <div class="table-wrapper">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Party</th>
+                        <th>Type</th>
+                        <th>Amount</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var t in Model.RecentTransactions)
+                    {
+                        <tr>
+                            <td>@t.Date.ToString("dd MMM")</td>
+                            <td><strong>@t.Party</strong></td>
+                            <td>@t.Type</td>
+                            <td>PKR @t.Amount.ToString("N0")</td>
+                            <td>
+                                <span class="badge @(t.Status == "Paid" ? "badge-paid" : t.Status == "Overdue" ? "badge-overdue" : t.Status == "Credit" ? "badge-credit" : "badge-pending")">
+                                    @t.Status
+                                </span>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+

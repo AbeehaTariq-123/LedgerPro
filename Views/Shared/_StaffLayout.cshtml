@@ -1,0 +1,65 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - LedgerPro Staff</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@400;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="~/css/theme.css" />
+    <link rel="stylesheet" href="~/css/dashboard.css" />
+</head>
+<body>
+    <div class="dashboard-shell">
+        <aside class="sidebar">
+            <div class="sidebar-brand">
+                <div class="brand-icon">🌿</div>
+                <div>
+                    <h3>LedgerPro</h3>
+                    <span>Staff Panel</span>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <a href="/Dashboard/Staff" class="nav-item active"><span>📊</span> My Dashboard</a>
+                <a href="/Transaction" class="nav-item"><span>💳</span> Record Sale</a>
+                <a href="/Transaction/Create?type=purchase" class="nav-item"><span>🧾</span> Record Purchase</a>
+                <a href="/Payment/Create" class="nav-item"><span>💰</span> Add Payment</a>
+                <a href="/Customer" class="nav-item"><span>👥</span> Customers</a>
+                <a href="/Supplier" class="nav-item"><span>🏷️</span> Suppliers</a>
+                <a href="/Invoice" class="nav-item"><span>🧾</span> Invoices</a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <a href="/Account/Logout" class="nav-item logout"><span>↩</span> Logout</a>
+            </div>
+        </aside>
+
+        <!-- MAIN CONTENT -->
+        <main class="main-content">
+            <header class="topbar">
+                <div>
+                    <h2 class="page-title">@ViewData["Title"]</h2>
+                    <p class="page-subtitle">@ViewData["Subtitle"]</p>
+                </div>
+                <div class="topbar-right">
+                    <button class="icon-btn" title="Notifications">🔔</button>
+                    <div class="profile-chip">
+                        <div class="avatar" style="background:var(--sage-green)">SK</div>
+                        <div>
+                            <strong>@Context.Session.GetString("UserName")</strong>
+                            <span>Staff</span>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <div class="content-body">
+                @RenderBody()
+            </div>
+        </main>
+    </div>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

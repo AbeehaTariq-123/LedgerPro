@@ -4,18 +4,46 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - LedgerPro</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:wght@500;700&family=Great+Vibes&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/ledgerpro.css" asp-append-version="true" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@400;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="~/css/theme.css" />
+    <link rel="stylesheet" href="~/css/auth.css" />
 </head>
-<body class="auth-bg">
-    <div class="container min-vh-100 d-flex justify-content-center align-items-center py-4">
-        @RenderBody()
+<body class="auth-body">
+    <div class="auth-container">
+        <div class="auth-visual">
+            <div class="auth-brand">
+                <div class="brand-mark">🪶</div>
+                <h1>LedgerPro</h1>
+                <p>Warm, beautiful bookkeeping for small businesses.</p>
+            </div>
+
+            <div class="auth-illustration">
+                <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                    <circle cx="200" cy="200" r="180" fill="#A8B99A" opacity="0.25" />
+                    <circle cx="200" cy="200" r="140" fill="#E9D5B9" opacity="0.4" />
+                    <path d="M120 220 Q200 120 280 220 Q200 280 120 220 Z" fill="#DDAFA5" opacity="0.7" />
+                    <circle cx="200" cy="200" r="40" fill="#713C43" opacity="0.85" />
+                    <circle cx="200" cy="200" r="18" fill="#FFF9EF" />
+                    <path d="M90 90 Q110 70 130 90 Q110 110 90 90" fill="#C97965" opacity="0.6" />
+                    <path d="M280 320 Q300 300 320 320 Q300 340 280 320" fill="#C97965" opacity="0.6" />
+                    <circle cx="330" cy="120" r="14" fill="#75896D" opacity="0.5" />
+                    <circle cx="70" cy="300" r="10" fill="#DDAFA5" opacity="0.7" />
+                </svg>
+            </div>
+
+            <div class="auth-quote">
+                <p>"Keep every ledger warm, beautiful, and balanced."</p>
+            </div>
+        </div>
+
+        <div class="auth-form-side">
+            @RenderBody()
+        </div>
     </div>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script src="~/js/auth.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

@@ -1,0 +1,429 @@
+﻿/* ============================================================
+   LEDGERPRO - CLAY MADE PLAYFUL THEME
+   Global design tokens, typography, buttons, forms, cards, tables
+   ============================================================ */
+
+:root {
+    /* ---- Color palette ---- */
+    --sage-green: #A8B99A;
+    --dark-sage: #75896D;
+    --warm-cream: #F7F0DF;
+    --soft-beige: #E9D5B9;
+    --dusty-pink: #DDAFA5;
+    --terracotta: #C97965;
+    --burgundy: #713C43;
+    --dark-brown: #49342F;
+    --off-white: #FFF9EF;
+    /* ---- Typography ---- */
+    --font-serif: 'Fraunces', 'Playfair Display', Georgia, serif;
+    --font-sans: 'Nunito', 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
+    /* ---- Radius & shadows ---- */
+    --radius-lg: 24px;
+    --radius-md: 16px;
+    --radius-sm: 10px;
+    --shadow-soft: 0 6px 20px rgba(73, 52, 47, 0.08);
+    --shadow-hover: 0 10px 30px rgba(73, 52, 47, 0.14);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    font-family: var(--font-sans);
+    background-color: var(--warm-cream);
+    color: var(--dark-brown);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* ============ TYPOGRAPHY ============ */
+h1, h2, h3, h4, h5 {
+    font-family: var(--font-serif);
+    color: var(--burgundy);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    margin-top: 0;
+}
+
+h1 {
+    font-size: 2.5rem;
+}
+
+h2 {
+    font-size: 2rem;
+}
+
+h3 {
+    font-size: 1.5rem;
+}
+
+h4 {
+    font-size: 1.2rem;
+}
+
+p {
+    color: var(--dark-brown);
+}
+
+a {
+    color: var(--terracotta);
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+    a:hover {
+        color: var(--burgundy);
+    }
+
+/* ============ BUTTONS ============ */
+.btn {
+    font-family: var(--font-sans);
+    font-weight: 700;
+    border-radius: 999px;
+    padding: 12px 28px;
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    font-size: 0.95rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    text-decoration: none;
+    line-height: 1.2;
+}
+
+.btn-primary {
+    background-color: var(--burgundy);
+    color: var(--off-white);
+    box-shadow: 0 4px 12px rgba(113, 60, 67, 0.25);
+}
+
+    .btn-primary:hover {
+        background-color: #5e3036;
+        color: var(--off-white);
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-hover);
+    }
+
+    .btn-primary:active {
+        transform: translateY(0);
+    }
+
+.btn-secondary {
+    background-color: var(--sage-green);
+    color: var(--off-white);
+}
+
+    .btn-secondary:hover {
+        background-color: var(--dark-sage);
+        color: var(--off-white);
+        transform: translateY(-2px);
+    }
+
+.btn-outline {
+    background: transparent;
+    color: var(--burgundy);
+    border: 2px solid var(--burgundy);
+}
+
+    .btn-outline:hover {
+        background: var(--burgundy);
+        color: var(--off-white);
+    }
+
+.btn-terracotta {
+    background-color: var(--terracotta);
+    color: var(--off-white);
+}
+
+    .btn-terracotta:hover {
+        background-color: #b5654f;
+        color: var(--off-white);
+    }
+
+.btn-sm {
+    padding: 8px 18px;
+    font-size: 0.85rem;
+}
+
+.btn-block {
+    width: 100%;
+}
+
+.btn:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* ============ FORMS ============ */
+.form-group {
+    margin-bottom: 1.25rem;
+    position: relative;
+}
+
+.form-label {
+    display: block;
+    font-weight: 700;
+    color: var(--dark-brown);
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+}
+
+.form-control {
+    width: 100%;
+    padding: 14px 20px;
+    border-radius: var(--radius-md);
+    border: 2px solid transparent;
+    background-color: var(--off-white);
+    color: var(--dark-brown);
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    transition: all 0.2s ease;
+    box-shadow: inset 0 2px 4px rgba(73, 52, 47, 0.04);
+}
+
+    .form-control:focus {
+        outline: none;
+        border-color: var(--sage-green);
+        background-color: #fff;
+        box-shadow: 0 0 0 4px rgba(168, 185, 154, 0.2);
+    }
+
+    .form-control::placeholder {
+        color: #a89a8f;
+    }
+
+textarea.form-control {
+    min-height: 100px;
+    resize: vertical;
+}
+
+select.form-control {
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2349342F' stroke-width='2'%3e%3cpolyline points='6 9 12 15 18 9'/%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 18px center;
+    background-size: 18px;
+    padding-right: 48px;
+}
+
+/* ============ CARDS ============ */
+.card {
+    background: var(--off-white);
+    border-radius: var(--radius-lg);
+    padding: 24px;
+    box-shadow: var(--shadow-soft);
+    border: 1px solid rgba(233, 213, 185, 0.6);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+    .card:hover {
+        transform: translateY(-3px);
+        box-shadow: var(--shadow-hover);
+    }
+
+/* ============ TABLES ============ */
+.table-wrapper {
+    background: var(--off-white);
+    border-radius: var(--radius-lg);
+    padding: 8px;
+    box-shadow: var(--shadow-soft);
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 6px;
+    min-width: 520px;
+}
+
+    .table th {
+        font-family: var(--font-serif);
+        color: var(--burgundy);
+        font-weight: 600;
+        text-align: left;
+        padding: 14px 18px;
+        font-size: 0.82rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+    }
+
+    .table td {
+        padding: 14px 18px;
+        background: var(--warm-cream);
+        color: var(--dark-brown);
+        font-size: 0.92rem;
+        vertical-align: middle;
+    }
+
+    .table tr td:first-child {
+        border-top-left-radius: 12px;
+        border-bottom-left-radius: 12px;
+    }
+
+    .table tr td:last-child {
+        border-top-right-radius: 12px;
+        border-bottom-right-radius: 12px;
+    }
+
+    .table tbody tr:hover td {
+        background: var(--soft-beige);
+    }
+
+/* ============ BADGES ============ */
+.badge {
+    display: inline-block;
+    padding: 5px 14px;
+    border-radius: 999px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+}
+
+.badge-paid {
+    background: var(--sage-green);
+    color: #fff;
+}
+
+.badge-pending {
+    background: var(--soft-beige);
+    color: var(--dark-brown);
+}
+
+.badge-overdue {
+    background: var(--terracotta);
+    color: #fff;
+}
+
+.badge-credit {
+    background: var(--dusty-pink);
+    color: var(--burgundy);
+}
+
+/* ============ DECORATIVE DIVIDER ============ */
+.scallop-divider {
+    height: 24px;
+    background: radial-gradient(circle at 12px 0, transparent 12px, var(--soft-beige) 13px);
+    background-size: 24px 24px;
+    background-repeat: repeat-x;
+    margin: 20px 0;
+    opacity: 0.6;
+    border: none;
+}
+
+/* ============ UTILITY CLASSES ============ */
+.text-center {
+    text-align: center;
+}
+
+.text-right {
+    text-align: right;
+}
+
+.text-muted {
+    color: var(--dark-sage);
+}
+
+.mt-1 {
+    margin-top: 0.5rem;
+}
+
+.mt-2 {
+    margin-top: 1rem;
+}
+
+.mt-3 {
+    margin-top: 1.5rem;
+}
+
+.mt-4 {
+    margin-top: 2rem;
+}
+
+.mb-1 {
+    margin-bottom: 0.5rem;
+}
+
+.mb-2 {
+    margin-bottom: 1rem;
+}
+
+.mb-3 {
+    margin-bottom: 1.5rem;
+}
+
+.mb-4 {
+    margin-bottom: 2rem;
+}
+
+.mb-0 {
+    margin-bottom: 0;
+}
+
+.d-flex {
+    display: flex;
+}
+
+.justify-between {
+    justify-content: space-between;
+}
+
+.justify-center {
+    justify-content: center;
+}
+
+.align-center {
+    align-items: center;
+}
+
+.flex-column {
+    flex-direction: column;
+}
+
+.gap-1 {
+    gap: 0.5rem;
+}
+
+.gap-2 {
+    gap: 1rem;
+}
+
+.gap-3 {
+    gap: 1.5rem;
+}
+
+.w-100 {
+    width: 100%;
+}
+
+/* ============ RESPONSIVE ============ */
+@media (max-width: 768px) {
+    h1 {
+        font-size: 1.8rem;
+    }
+
+    h2 {
+        font-size: 1.5rem;
+    }
+
+    h3 {
+        font-size: 1.25rem;
+    }
+
+    .card {
+        padding: 18px;
+    }
+
+    .btn {
+        padding: 10px 22px;
+        font-size: 0.9rem;
+    }
+}

@@ -1,0 +1,42 @@
+﻿@model LedgerPro.Models.ViewModels.StaffDashboardViewModel
+@{
+    Layout = "_StaffLayout";
+    ViewData["Title"] = "Staff Dashboard";
+    ViewData["Subtitle"] = "Your daily tasks and today's activity";
+}
+
+<div class="stats-grid">
+    <div class="stat-card sage">
+        <div class="stat-label">Today's Sales</div>
+        <p class="stat-value">PKR @Model.TodaySales.ToString("N0")</p>
+        <span class="stat-hint">Sales recorded today</span>
+    </div>
+    <div class="stat-card pink">
+        <div class="stat-label">Today's Purchases</div>
+        <p class="stat-value">PKR @Model.TodayPurchases.ToString("N0")</p>
+        <span class="stat-hint">Purchases recorded today</span>
+    </div>
+    <div class="stat-card terracotta">
+        <div class="stat-label">Payments Received</div>
+        <p class="stat-value">PKR @Model.TodayPaymentsReceived.ToString("N0")</p>
+        <span class="stat-hint">Customer payments today</span>
+    </div>
+    <div class="stat-card burgundy">
+        <div class="stat-label">Transactions</div>
+        <p class="stat-value">@Model.TransactionsCount</p>
+        <span class="stat-hint">@Model.PendingPayments pending payment(s)</span>
+    </div>
+</div>
+
+<div class="section-card mb-4">
+    <div class="section-header">
+        <h3>Quick Actions</h3>
+    </div>
+    <div class="quick-actions" style="grid-template-columns: repeat(4, 1fr);">
+        <a href="/Transaction/Create" class="quick-action"><span class="qa-icon">💳</span> New Sale</a>
+        <a href="/Transaction/Create?type=purchase" class="quick-action"><span class="qa-icon">🧾</span> New Purchase</a>
+        <a href="/Payment/Create" class="quick-action"><span class="qa-icon">💰</span> Add Payment</a>
+        <a href="/Invoice" class="quick-action"><span class="qa-icon">📄</span> Generate Invoice</a>
+    </div>
+</div>
+
