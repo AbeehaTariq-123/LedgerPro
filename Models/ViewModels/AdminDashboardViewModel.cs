@@ -2,10 +2,7 @@
 {
     public class AdminDashboardViewModel
     {
-        
         public string UserName { get; set; } = "";
-
-        
         public decimal TotalSales { get; set; }
         public decimal TotalPurchases { get; set; }
         public decimal TotalIncome { get; set; }

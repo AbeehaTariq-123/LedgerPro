@@ -1,0 +1,18 @@
+﻿@{
+    Layout = "_AuthLayout";
+    ViewData["Title"] = "Access Denied";
+}
+
+<div class="auth-form-header">
+    <h2>Access Denied</h2>
+
+    <p>
+        You do not have permission to access this page.
+    </p>
+
+    <a asp-controller="Account"
+       asp-action="Login"
+       class="btn btn-primary">
+        Return to Login
+    </a>
+</div>

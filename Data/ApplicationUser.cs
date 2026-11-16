@@ -1,6 +1,11 @@
 using Microsoft.AspNetCore.Identity;
-namespace LedgerPro.Data;
-// Add profile data for application users by adding properties to the ApplicationUser class
-public class ApplicationUser : IdentityUser
+using System.ComponentModel.DataAnnotations;
+
+namespace LedgerPro.Data
 {
+    public class ApplicationUser : IdentityUser
+    {
+        [StringLength(100)]
+        public string? FullName { get; set; }
+    }
 }
