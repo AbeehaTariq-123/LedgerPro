@@ -1,0 +1,13 @@
+﻿@{
+	Layout = "_AdminLayout"; ViewData["Title"] = "Ledgers"; ViewData["Subtitle"] = "Select an account to view its statement";
+}
+<div class="two-col">
+	<div class="section-card"><h3>Customer ledgers</h3><table class="table"><tbody>@foreach(var c in (IEnumerable<LedgerPro.Models.Customer>)ViewBag.Customers){
+		<tr><td>@c.Name</td><td><a asp-action="Customer" asp-route-id="@c.CustomerId">View statement</a></td></tr>
+	}
+</tbody></table></div>
+<div class="section-card"><h3>Supplier ledgers</h3><table class="table"><tbody>@foreach(var s in (IEnumerable<LedgerPro.Models.Supplier>)ViewBag.Suppliers){
+	<tr><td>@s.Name</td><td><a asp-action="Supplier" asp-route-id="@s.SupplierId">View statement</a></td></tr>
+}
+</tbody></table></div>
+</div>

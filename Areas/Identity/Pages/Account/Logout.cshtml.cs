@@ -1,41 +1,21 @@
-// Licensed to the .NET Foundation under one or more agreements.
-// The .NET Foundation licenses this file to you under the MIT license.
-
-using System;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
+using LedgerPro.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.Extensions.Logging;
-using LedgerPro.Data;
 
 namespace LedgerPro.Areas.Identity.Pages.Account;
 
-public class LogoutModel : PageModel
+public class LogoutModel(SignInManager<ApplicationUser> signInManager, ILogger<LogoutModel> logger) : PageModel
 {
-    private readonly SignInManager<ApplicationUser> _signInManager;
-    private readonly ILogger<LogoutModel> _logger;
+    // Visiting /Identity/Account/Logout directly shows a confirmation (or bounces to Login if signed out).
+    public IActionResult OnGet() =>
+        User.Identity?.IsAuthenticated == true ? Page() : RedirectToPage("./Login");
 
-    public LogoutModel(SignInManager<ApplicationUser> signInManager, ILogger<LogoutModel> logger)
+    // The sidebar "Logout" button posts here.
+    public async Task<IActionResult> OnPostAsync()
     {
-        _signInManager = signInManager;
-        _logger = logger;
-    }
-
-    public async Task<IActionResult> OnPost(string? returnUrl = null)
-    {
-        await _signInManager.SignOutAsync();
-        _logger.LogInformation("User logged out.");
-        if (returnUrl != null)
-        {
-            return LocalRedirect(returnUrl);
-        }
-        else
-        {
-            // This needs to be a redirect so that the browser performs a new
-            // request and the identity for the user gets updated.
-            return RedirectToPage();
-        }
+        await signInManager.SignOutAsync();
+        logger.LogInformation("User logged out.");
+        return RedirectToPage("./Login");
     }
 }

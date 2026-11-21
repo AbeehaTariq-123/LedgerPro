@@ -1,0 +1,11 @@
+﻿@model IEnumerable<LedgerPro.Models.AccountLedgerRow>
+@{
+	Layout = "_AdminLayout"; ViewData["Title"] = ViewBag.PartyType + " Ledger"; ViewData["Subtitle"] = ViewBag.PartyName;
+}
+<div class="section-card">
+	<div class="section-header"><h3>@ViewBag.PartyName</h3><strong>Balance: PKR @(((decimal)ViewBag.Balance).ToString("N2"))</strong><button class="btn btn-outline" onclick="window.print()">Print</button></div>
+	<table class="table"><thead><tr><th>Date</th><th>Type</th><th>Description</th><th>Debit</th><th>Credit</th><th>Balance</th></tr></thead><tbody>@foreach(var x in Model){
+		<tr><td>@x.EntryDate.ToString("dd MMM yyyy")</td><td>@x.EntryType</td><td>@x.Description</td><td>@x.Debit.ToString("N2")</td><td>@x.Credit.ToString("N2")</td><td>@x.RunningBalance.ToString("N2")</td></tr>
+	}
+</tbody></table>
+</div>

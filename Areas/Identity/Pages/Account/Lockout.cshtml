@@ -1,10 +1,12 @@
 @page
 @model LockoutModel
 @{
-    ViewData["Title"] = "Locked out";
+    ViewData["Title"] = "Account Locked";
 }
 
-<header>
-    <h1 class="text-danger">@ViewData["Title"]</h1>
-    <p class="text-danger">This account has been locked out, please try again later.</p>
-</header>
+<div class="auth-form-header">
+    <h2>Account locked</h2>
+    <p>Too many failed sign-in attempts. Please try again in 15 minutes.</p>
+</div>
+
+<a asp-page="./Login" class="btn btn-primary auth-submit" style="text-align:center;text-decoration:none;display:block;">Back to Login</a>

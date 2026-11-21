@@ -1,0 +1,37 @@
+﻿@{
+    ViewData["Title"] = "Suppliers";
+    ViewData["Subtitle"] = "People you buy from";
+}
+
+<div class="section-card">
+    <div class="section-header">
+        <h3>All Suppliers</h3>
+        <a asp-action="Create" class="btn btn-sm btn-primary">+ Add Supplier</a>
+    </div>
+
+    <div class="mb-3">
+        <input type="search" id="tableSearch" class="form-control" placeholder="Search…" autocomplete="off" />
+    </div>
+
+    <div class="table-wrapper">
+        <table class="table" id="supplierTable">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Name</th>
+                    <th>Phone</th>
+                    <th>Email</th>
+                    <th>Opening Balance</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td colspan="6" class="text-center">Loading…</td></tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/suppliers.js"></script>
+}

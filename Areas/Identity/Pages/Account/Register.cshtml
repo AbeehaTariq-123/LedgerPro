@@ -1,48 +1,87 @@
 @page
 @model RegisterModel
-
 @{
-    ViewData["Title"] = "Sign Up";
-    Layout = "/Views/Shared/_AuthLayout.cshtml";
+    ViewData["Title"] = "Create Account";
 }
 
-<div class="card auth-card">
-    <div class="card-body p-4 p-md-5">
-        <div class="text-center mb-4">
-            <div class="brand-script fs-2">The</div>
-            <h2 class="brand-main mb-1">LEDGER PRO</h2>
-            <p class="text-muted small mb-0">Create your account</p>
-        </div>
-
-        <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
-            <div asp-validation-summary="ModelOnly" class="alert alert-danger py-2" role="alert"></div>
-
-            <div class="mb-3">
-                <label asp-for="Input.Email" class="form-label"></label>
-                <input asp-for="Input.Email" class="form-control" autocomplete="username" placeholder="you@example.com" />
-                <span asp-validation-for="Input.Email" class="text-danger small"></span>
-            </div>
-            <div class="mb-3">
-                <label asp-for="Input.Password" class="form-label"></label>
-                <input asp-for="Input.Password" class="form-control" autocomplete="new-password" />
-                <span asp-validation-for="Input.Password" class="text-danger small"></span>
-                <div class="form-text">At least 8 characters, with an uppercase letter, a lowercase letter and a number.</div>
-            </div>
-            <div class="mb-3">
-                <label asp-for="Input.ConfirmPassword" class="form-label"></label>
-                <input asp-for="Input.ConfirmPassword" class="form-control" autocomplete="new-password" />
-                <span asp-validation-for="Input.ConfirmPassword" class="text-danger small"></span>
-            </div>
-            <button id="registerSubmit" type="submit" class="btn btn-primary w-100">Create Account</button>
-        </form>
-
-        <p class="text-center mt-4 mb-0 small">
-            Already have an account?
-            <a asp-page="./Login" asp-route-returnUrl="@Model.ReturnUrl">Login</a>
-        </p>
-    </div>
+<div class="auth-form-header">
+    <h2>Create your account</h2>
+    <p>Start managing your business ledger in a beautiful way.</p>
 </div>
 
+<div asp-validation-summary="ModelOnly" class="auth-alert error" role="alert"></div>
+
+<form method="post" asp-route-returnUrl="@Model.ReturnUrl" id="signupForm">
+
+    <div class="form-group">
+        <label class="form-label" asp-for="Input.FullName">Full Name</label>
+        <input asp-for="Input.FullName" class="form-control" placeholder="Jane Doe" autocomplete="name" required />
+        <span asp-validation-for="Input.FullName" class="field-error"></span>
+    </div>
+
+    <div class="form-group">
+        <label class="form-label" asp-for="Input.Email">Email Address</label>
+        <input asp-for="Input.Email" class="form-control" placeholder="you@example.com" autocomplete="email" required />
+        <span asp-validation-for="Input.Email" class="field-error"></span>
+    </div>
+
+    <div class="form-group">
+        <label class="form-label" asp-for="Input.AccountType">Account Type</label>
+        <select asp-for="Input.AccountType" class="form-control" id="accountType">
+            <option value="Staff">Staff</option>
+            <option value="Admin">Admin</option>
+        </select>
+        <span asp-validation-for="Input.AccountType" class="field-error"></span>
+    </div>
+
+    <div class="form-group" id="adminCodeGroup" style="display:none;">
+        <label class="form-label" asp-for="Input.AdminRegistrationCode">Admin Registration Code</label>
+        <input asp-for="Input.AdminRegistrationCode" type="password" class="form-control"
+               placeholder="Enter Admin registration code" autocomplete="off" />
+        <span asp-validation-for="Input.AdminRegistrationCode" class="field-error"></span>
+        <small class="text-muted">An authorized Admin registration code is required.</small>
+    </div>
+
+    <div class="form-group">
+        <label class="form-label" asp-for="Input.Password">Password</label>
+        <div class="password-wrapper">
+            <input asp-for="Input.Password" type="password" class="form-control" id="signupPwd"
+                   placeholder="At least 8 characters" autocomplete="new-password" required />
+            <button type="button" class="toggle-password" onclick="togglePassword('signupPwd', this)" title="Show/hide password">👁</button>
+        </div>
+        <span asp-validation-for="Input.Password" class="field-error"></span>
+    </div>
+
+    <div class="form-group">
+        <label class="form-label" asp-for="Input.ConfirmPassword">Confirm Password</label>
+        <div class="password-wrapper">
+            <input asp-for="Input.ConfirmPassword" type="password" class="form-control" id="signupConfirm"
+                   placeholder="Repeat your password" autocomplete="new-password" required />
+            <button type="button" class="toggle-password" onclick="togglePassword('signupConfirm', this)" title="Show/hide password">👁</button>
+        </div>
+        <span asp-validation-for="Input.ConfirmPassword" class="field-error"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary auth-submit">Create Account</button>
+
+    <p class="auth-footer-text mt-3">
+        Already have an account?
+        <a asp-page="./Login" asp-route-returnUrl="@Model.ReturnUrl">Sign in</a>
+    </p>
+</form>
+
 @section Scripts {
-    <partial name="_ValidationScriptsPartial" />
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const accountType = document.getElementById("accountType");
+            const adminCodeGroup = document.getElementById("adminCodeGroup");
+
+            function update() {
+                adminCodeGroup.style.display = accountType.value === "Admin" ? "block" : "none";
+            }
+
+            accountType.addEventListener("change", update);
+            update();
+        });
+    </script>
 }

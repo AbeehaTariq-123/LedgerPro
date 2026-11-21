@@ -24,6 +24,13 @@
     }
 }
 
+@{
+    var ctrl = ViewContext.RouteData.Values["controller"]?.ToString() ?? "";
+    var act = ViewContext.RouteData.Values["action"]?.ToString() ?? "";
+    var txType = Context.Request.Query["type"].ToString().ToLowerInvariant();
+    Func<string, string> Active = c => ctrl == c ? "active" : "";
+}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -40,6 +47,7 @@
 
     <link rel="stylesheet" href="~/css/theme.css" />
     <link rel="stylesheet" href="~/css/dashboard.css" />
+    <link rel="stylesheet" href="~/css/pages.css" />
 
     @await RenderSectionAsync("Styles", required: false)
 </head>
@@ -63,40 +71,46 @@
 
             <nav class="sidebar-nav">
 
-                <a href="/Dashboard/Staff" class="nav-item active">
+                <a href="/Dashboard/Staff" class="nav-item @Active("Dashboard")">
                     <span>📊</span> My Dashboard
                 </a>
 
-                <a href="/Transaction" class="nav-item">
+                <a href="/Transaction/Create?type=Sale"
+                   class="nav-item @(ctrl == "Transaction" && act == "Create" && txType != "purchase" ? "active" : "")">
                     <span>💳</span> Record Sale
                 </a>
 
-                <a href="/Transaction/Create?type=purchase" class="nav-item">
+                <a href="/Transaction/Create?type=Purchase"
+                   class="nav-item @(ctrl == "Transaction" && act == "Create" && txType == "purchase" ? "active" : "")">
                     <span>🧾</span> Record Purchase
                 </a>
 
-                <a href="/Payment/Create" class="nav-item">
+                <a href="/Payment/Create" class="nav-item @(ctrl == "Payment" && act == "Create" ? "active" : "")">
                     <span>💰</span> Add Payment
                 </a>
 
-                <a href="/Customer" class="nav-item">
+                <a href="/Transaction" class="nav-item @(ctrl == "Transaction" && act != "Create" ? "active" : "")">
+                    <span>📒</span> Transactions
+                </a>
+
+                <a href="/Customer" class="nav-item @Active("Customer")">
                     <span>👥</span> Customers
                 </a>
 
-                <a href="/Supplier" class="nav-item">
+                <a href="/Supplier" class="nav-item @Active("Supplier")">
                     <span>🏷️</span> Suppliers
                 </a>
 
-                <a href="/Invoice" class="nav-item">
-                    <span>🧾</span> Invoices
+                <a href="/Invoice" class="nav-item @Active("Invoice")">
+                    <span>📄</span> Invoices
                 </a>
 
             </nav>
 
             <div class="sidebar-footer">
 
-                <form asp-controller="Account"
-                      asp-action="Logout"
+                <form asp-area="Identity"
+                      asp-page="/Account/Logout"
                       method="post">
 
                     @Html.AntiForgeryToken()
@@ -154,12 +168,17 @@
 
             <!-- PAGE CONTENT -->
             <div class="content-body">
+                <partial name="_Alerts" />
                 @RenderBody()
             </div>
 
         </main>
 
     </div>
+
+    <script>window.LedgerPro = { isAdmin: @(User.IsInRole("Admin") ? "true" : "false") };</script>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/js/site.js"></script>
 
     @await RenderSectionAsync("Scripts", required: false)
 

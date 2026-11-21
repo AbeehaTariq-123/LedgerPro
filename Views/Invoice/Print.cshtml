@@ -1,0 +1,63 @@
+@model LedgerPro.Models.ViewModels.InvoiceViewModel
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@Model.InvoiceNumber - LedgerPro</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@400;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="~/css/theme.css" />
+    <link rel="stylesheet" href="~/css/pages.css" />
+</head>
+<body>
+    <div class="invoice-page">
+        <div class="invoice-actions no-print">
+            <button type="button" class="btn btn-primary" onclick="window.print()">🖨️ Print</button>
+            <a asp-action="Index" class="btn btn-outline">← Back to invoices</a>
+        </div>
+
+        <div class="invoice-sheet">
+            <div class="invoice-head">
+                <div>
+                    <h1>LedgerPro</h1>
+                    <p class="text-muted">Sales Invoice</p>
+                </div>
+                <div class="text-right">
+                    <h3>@Model.InvoiceNumber</h3>
+                    <p>@Model.Date.ToString("dd MMMM yyyy")</p>
+                </div>
+            </div>
+
+            <div class="invoice-bill">
+                <span class="text-muted">Billed to</span>
+                <h4>@Model.CustomerName</h4>
+                @if (!string.IsNullOrWhiteSpace(Model.Address)) { <div>@Model.Address</div> }
+                @if (!string.IsNullOrWhiteSpace(Model.Phone)) { <div>@Model.Phone</div> }
+                @if (!string.IsNullOrWhiteSpace(Model.Email)) { <div>@Model.Email</div> }
+            </div>
+
+            <table class="table">
+                <thead>
+                    <tr><th>Description</th><th class="text-right">Amount</th></tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>@(string.IsNullOrWhiteSpace(Model.Description) ? "Goods / services" : Model.Description)</td>
+                        <td class="text-right">PKR @Model.Amount.ToString("N2")</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="invoice-total">
+                <div><span>Invoice total</span><strong>PKR @Model.Amount.ToString("N2")</strong></div>
+                <div><span>Account balance due (all invoices)</span><strong>PKR @Model.CustomerBalance.ToString("N2")</strong></div>
+            </div>
+
+            <p class="text-center text-muted mt-4">Thank you for your business.</p>
+        </div>
+    </div>
+</body>
+</html>

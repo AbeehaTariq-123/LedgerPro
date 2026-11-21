@@ -1,0 +1,48 @@
+@model LedgerPro.Models.Supplier
+@{
+    var isNew = Model.SupplierId == 0;
+    ViewData["Title"] = isNew ? "Add Supplier" : "Edit Supplier";
+    ViewData["Subtitle"] = isNew ? "Create a new supplier account" : "Update supplier details";
+}
+
+<div class="section-card form-card">
+    <form asp-action="Save" method="post">
+        <input type="hidden" asp-for="SupplierId" />
+        <div asp-validation-summary="ModelOnly" class="field-error"></div>
+
+        <div class="form-group">
+            <label class="form-label" asp-for="Name">Name</label>
+            <input asp-for="Name" class="form-control" placeholder="Supplier name" required />
+            <span asp-validation-for="Name" class="field-error"></span>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label class="form-label" asp-for="Phone">Phone</label>
+                <input asp-for="Phone" class="form-control" placeholder="03xx-xxxxxxx" />
+                <span asp-validation-for="Phone" class="field-error"></span>
+            </div>
+            <div class="form-group">
+                <label class="form-label" asp-for="Email">Email</label>
+                <input asp-for="Email" type="email" class="form-control" placeholder="name@example.com" />
+                <span asp-validation-for="Email" class="field-error"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label" asp-for="Address">Address</label>
+            <textarea asp-for="Address" class="form-control"></textarea>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label" asp-for="OpeningBalance">Opening Balance (PKR we owe the supplier)</label>
+            <input asp-for="OpeningBalance" type="number" step="0.01" class="form-control" />
+            <span asp-validation-for="OpeningBalance" class="field-error"></span>
+        </div>
+
+        <div class="d-flex gap-2">
+            <button type="submit" class="btn btn-primary">Save Supplier</button>
+            <a asp-action="Index" class="btn btn-outline">Cancel</a>
+        </div>
+    </form>
+</div>

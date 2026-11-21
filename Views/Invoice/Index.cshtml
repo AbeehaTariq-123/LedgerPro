@@ -1,0 +1,44 @@
+@model List<LedgerPro.Models.ViewModels.InvoiceRowViewModel>
+@{
+    ViewData["Title"] = "Invoices";
+    ViewData["Subtitle"] = "Printable invoices for every recorded sale";
+}
+
+<div class="section-card">
+    <div class="section-header">
+        <h3>Sales Invoices</h3>
+        <a asp-controller="Transaction" asp-action="Create" asp-route-type="Sale" class="btn btn-sm btn-primary">+ New Sale</a>
+    </div>
+
+    <div class="table-wrapper">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Invoice</th>
+                    <th>Date</th>
+                    <th>Customer</th>
+                    <th class="text-right">Amount</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (!Model.Any())
+                {
+                    <tr><td colspan="5" class="text-center">No sales recorded yet.</td></tr>
+                }
+                @foreach (var i in Model)
+                {
+                    <tr>
+                        <td><strong>@i.InvoiceNumber</strong></td>
+                        <td>@i.Date.ToString("dd MMM yyyy")</td>
+                        <td>@i.CustomerName</td>
+                        <td class="text-right">PKR @i.Amount.ToString("N0")</td>
+                        <td class="text-right">
+                            <a asp-action="Print" asp-route-id="@i.TransactionId" target="_blank" class="btn btn-sm btn-outline">View / Print</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

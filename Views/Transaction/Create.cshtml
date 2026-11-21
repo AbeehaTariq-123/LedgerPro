@@ -1,0 +1,56 @@
+@model LedgerPro.Models.ViewModels.TransactionFormViewModel
+@{
+    bool isSale = Model.TransactionType == "Sale";
+    ViewData["Title"] = isSale ? "Record Sale" : "Record Purchase";
+    ViewData["Subtitle"] = isSale ? "Goods or services sold to a customer" : "Goods or services bought from a supplier";
+}
+
+<div class="section-card form-card">
+    <div class="segmented">
+        <a asp-action="Create" asp-route-type="Sale" class="@(isSale ? "active" : "")">Sale</a>
+        <a asp-action="Create" asp-route-type="Purchase" class="@(!isSale ? "active" : "")">Purchase</a>
+    </div>
+
+    <form asp-action="Create" method="post">
+        <input type="hidden" asp-for="TransactionType" />
+        <div asp-validation-summary="ModelOnly" class="field-error"></div>
+
+        <div class="form-group">
+            <label class="form-label" asp-for="PartyId">@(isSale ? "Customer" : "Supplier")</label>
+            <select asp-for="PartyId" asp-items="Model.Parties" class="form-control" required>
+                <option value="">— Select —</option>
+            </select>
+            <span asp-validation-for="PartyId" class="field-error"></span>
+            @if (!Model.Parties.Any())
+            {
+                <span class="field-error">
+                    No @(isSale ? "customers" : "suppliers") yet —
+                    <a asp-controller="@(isSale ? "Customer" : "Supplier")" asp-action="Create">add one first</a>.
+                </span>
+            }
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label class="form-label" asp-for="Amount">Amount (PKR)</label>
+                <input asp-for="Amount" type="number" step="0.01" min="0.01" class="form-control" required />
+                <span asp-validation-for="Amount" class="field-error"></span>
+            </div>
+            <div class="form-group">
+                <label class="form-label" asp-for="TransactionDate">Date</label>
+                <input asp-for="TransactionDate" type="date" asp-format="{0:yyyy-MM-dd}" class="form-control" required />
+                <span asp-validation-for="TransactionDate" class="field-error"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label" asp-for="Description">Description</label>
+            <textarea asp-for="Description" class="form-control" placeholder="Items, invoice notes…"></textarea>
+        </div>
+
+        <div class="d-flex gap-2">
+            <button type="submit" class="btn btn-primary">Save @(isSale ? "Sale" : "Purchase")</button>
+            <a asp-action="Index" class="btn btn-outline">Cancel</a>
+        </div>
+    </form>
+</div>

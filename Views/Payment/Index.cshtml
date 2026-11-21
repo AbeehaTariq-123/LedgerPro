@@ -1,0 +1,39 @@
+﻿@{
+    ViewData["Title"] = "Payments";
+    ViewData["Subtitle"] = "Money received from customers and paid to suppliers";
+}
+
+<div class="section-card">
+    <div class="section-header">
+        <h3>All Payments</h3>
+        <div class="d-flex gap-2">
+            <a asp-action="Create" asp-route-type="Received" class="btn btn-sm btn-primary">+ Receive Payment</a>
+            <a asp-action="Create" asp-route-type="Paid" class="btn btn-sm btn-secondary">+ Pay Supplier</a>
+        </div>
+    </div>
+
+    <div class="mb-3">
+        <input type="search" id="tableSearch" class="form-control" placeholder="Search…" autocomplete="off" />
+    </div>
+
+    <div class="table-wrapper">
+        <table class="table" id="paymentTable">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Direction</th>
+                    <th>Party</th>
+                    <th>Amount</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td colspan="5" class="text-center">Loading…</td></tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/payments.js"></script>
+}

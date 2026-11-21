@@ -1,0 +1,40 @@
+﻿@{
+    ViewData["Title"] = "Transactions";
+    ViewData["Subtitle"] = "Every sale, purchase and payment in one place";
+}
+
+<div class="section-card">
+    <div class="section-header">
+        <h3>All Transactions</h3>
+        <div class="d-flex gap-2">
+            <a asp-action="Create" asp-route-type="Sale" class="btn btn-sm btn-primary">+ New Sale</a>
+            <a asp-action="Create" asp-route-type="Purchase" class="btn btn-sm btn-secondary">+ New Purchase</a>
+            <a asp-controller="Payment" asp-action="Create" class="btn btn-sm btn-outline">+ Payment</a>
+        </div>
+    </div>
+
+    <div class="mb-3">
+        <input type="search" id="tableSearch" class="form-control" placeholder="Search…" autocomplete="off" />
+    </div>
+
+    <div class="table-wrapper">
+        <table class="table" id="transactionTable">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Type</th>
+                    <th>Party</th>
+                    <th>Amount</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td colspan="5" class="text-center">Loading…</td></tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/transactions.js"></script>
+}

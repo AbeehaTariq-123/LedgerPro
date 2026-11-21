@@ -1,0 +1,70 @@
+@model LedgerPro.Models.ViewModels.LedgerViewModel
+@{
+    var ctrl = Model.IsCustomer ? "Customer" : "Supplier";
+    ViewData["Title"] = $"{Model.PartyName} – Ledger";
+    ViewData["Subtitle"] = Model.IsCustomer ? "Customer account statement" : "Supplier account statement";
+}
+
+<div class="stats-grid">
+    <div class="stat-card beige">
+        <div class="stat-label">Opening Balance</div>
+        <p class="stat-value">PKR @Model.OpeningBalance.ToString("N0")</p>
+        <span class="stat-hint">Before any transactions</span>
+    </div>
+    <div class="stat-card @(Model.Balance > 0 ? "terracotta" : "sage")">
+        <div class="stat-label">Current Balance</div>
+        <p class="stat-value">PKR @Model.Balance.ToString("N0")</p>
+        <span class="stat-hint">@(Model.IsCustomer ? "Owed by this customer" : "Owed to this supplier")</span>
+    </div>
+</div>
+
+<div class="section-card">
+    <div class="section-header">
+        <h3>Statement</h3>
+        <div class="d-flex gap-2">
+            @if (Model.IsCustomer)
+            {
+                <a asp-controller="Transaction" asp-action="Create" asp-route-type="Sale" asp-route-partyId="@Model.PartyId" class="btn btn-sm btn-primary">+ New Sale</a>
+                <a asp-controller="Payment" asp-action="Create" asp-route-type="Received" asp-route-partyId="@Model.PartyId" class="btn btn-sm btn-secondary">+ Receive Payment</a>
+            }
+            else
+            {
+                <a asp-controller="Transaction" asp-action="Create" asp-route-type="Purchase" asp-route-partyId="@Model.PartyId" class="btn btn-sm btn-primary">+ New Purchase</a>
+                <a asp-controller="Payment" asp-action="Create" asp-route-type="Paid" asp-route-partyId="@Model.PartyId" class="btn btn-sm btn-secondary">+ Pay Supplier</a>
+            }
+            <a asp-controller="@ctrl" asp-action="Index" class="btn btn-sm btn-outline">← Back</a>
+        </div>
+    </div>
+
+    <div class="table-wrapper">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Type</th>
+                    <th>Description</th>
+                    <th class="text-right">Debit</th>
+                    <th class="text-right">Credit</th>
+                    <th class="text-right">Balance</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (!Model.Rows.Any())
+                {
+                    <tr><td colspan="6" class="text-center">No transactions yet.</td></tr>
+                }
+                @foreach (var r in Model.Rows)
+                {
+                    <tr>
+                        <td>@r.EntryDate.ToString("dd MMM yyyy")</td>
+                        <td>@r.EntryType</td>
+                        <td>@r.Description</td>
+                        <td class="text-right">@(r.Debit == 0 ? "" : r.Debit.ToString("N0"))</td>
+                        <td class="text-right">@(r.Credit == 0 ? "" : r.Credit.ToString("N0"))</td>
+                        <td class="text-right"><strong>@((Model.OpeningBalance + r.RunningBalance).ToString("N0"))</strong></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

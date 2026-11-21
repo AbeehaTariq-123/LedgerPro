@@ -1,0 +1,38 @@
+﻿@{
+    ViewData["Title"] = "Products";
+    ViewData["Subtitle"] = "Your catalogue and stock levels";
+}
+
+<div class="section-card">
+    <div class="section-header">
+        <h3>All Products</h3>
+        <a asp-action="Create" class="btn btn-sm btn-primary">+ Add Product</a>
+    </div>
+
+    <div class="mb-3">
+        <input type="search" id="tableSearch" class="form-control" placeholder="Search…" autocomplete="off" />
+    </div>
+
+    <div class="table-wrapper">
+        <table class="table" id="productTable">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Product</th>
+                    <th>SKU</th>
+                    <th>Purchase</th>
+                    <th>Sale</th>
+                    <th>Stock</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td colspan="7" class="text-center">Loading…</td></tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/products.js"></script>
+}

@@ -1,0 +1,1 @@
+﻿document.addEventListener('DOMContentLoaded', () => { const i = document.getElementById('tableSearch'), t = document.getElementById('dataTable'); if (!i || !t) return; i.addEventListener('input', () => { const q = i.value.toLowerCase(); t.querySelectorAll('tbody tr').forEach(r => r.hidden = !r.innerText.toLowerCase().includes(q)); }); });

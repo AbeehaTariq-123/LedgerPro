@@ -1,0 +1,71 @@
+﻿.form-card {
+    max-width: 760px;
+    padding: 24px
+}
+
+    .form-card form {
+        display: grid;
+        gap: 10px
+    }
+
+    .form-card label, .filter-form label {
+        font-weight: 700;
+        margin-top: 8px
+    }
+
+.form-control {
+    width: 100%;
+    box-sizing: border-box;
+    border: 1px solid #d8d8d8;
+    border-radius: 8px;
+    padding: 10px 12px;
+    font: inherit;
+    background: white
+}
+
+.form-card textarea {
+    min-height: 85px
+}
+
+.form-actions, .filter-form {
+    display: flex;
+    gap: 12px;
+    align-items: end;
+    flex-wrap: wrap;
+    margin-top: 16px
+}
+
+.inline-form {
+    display: inline;
+    margin-left: 8px
+}
+
+.link-danger {
+    border: 0;
+    background: none;
+    color: #a22;
+    text-decoration: underline;
+    cursor: pointer;
+    font: inherit
+}
+
+.alert-success {
+    background: #e8f5eb;
+    color: #205b32;
+    padding: 10px 14px;
+    border-radius: 8px
+}
+
+.text-danger {
+    color: #a22
+}
+
+.filter-form > div {
+    min-width: 180px
+}
+
+@media print {
+    .sidebar, .topbar, .btn {
+        display: none !important
+    }
+}

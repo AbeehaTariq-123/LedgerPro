@@ -1,0 +1,65 @@
+@model LedgerPro.Models.ViewModels.ReportViewModel
+@{
+    ViewData["Title"] = "Reports";
+    ViewData["Subtitle"] = $"{Model.From:dd MMM yyyy} – {Model.To:dd MMM yyyy}";
+
+    var today = DateTime.Today;
+    var weekStart = today.AddDays(-(((int)today.DayOfWeek + 6) % 7)); // Monday
+    var monthStart = new DateTime(today.Year, today.Month, 1);
+    string D(DateTime d) => d.ToString("yyyy-MM-dd");
+}
+
+<div class="section-card mb-4">
+    <form method="get" asp-action="Index" class="filter-bar">
+        <div class="form-group">
+            <label class="form-label" for="from">From</label>
+            <input id="from" name="from" type="date" value="@D(Model.From)" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label class="form-label" for="to">To</label>
+            <input id="to" name="to" type="date" value="@D(Model.To)" class="form-control" />
+        </div>
+        <button type="submit" class="btn btn-primary">Apply</button>
+
+        <div class="d-flex gap-2">
+            <a class="btn btn-sm btn-outline" asp-action="Index" asp-route-from="@D(today)" asp-route-to="@D(today)">Today</a>
+            <a class="btn btn-sm btn-outline" asp-action="Index" asp-route-from="@D(weekStart)" asp-route-to="@D(today)">This week</a>
+            <a class="btn btn-sm btn-outline" asp-action="Index" asp-route-from="@D(monthStart)" asp-route-to="@D(today)">This month</a>
+        </div>
+    </form>
+</div>
+
+<div class="stats-grid">
+    <div class="stat-card sage">
+        <div class="stat-label">Sales</div>
+        <p class="stat-value">PKR @Model.Sales.ToString("N0")</p>
+        <span class="stat-hint">Total sold in range</span>
+    </div>
+    <div class="stat-card pink">
+        <div class="stat-label">Purchases</div>
+        <p class="stat-value">PKR @Model.Purchases.ToString("N0")</p>
+        <span class="stat-hint">Total bought in range</span>
+    </div>
+    <div class="stat-card beige">
+        <div class="stat-label">Payments Received</div>
+        <p class="stat-value">PKR @Model.PaymentsReceived.ToString("N0")</p>
+        <span class="stat-hint">Cash in from customers</span>
+    </div>
+    <div class="stat-card terracotta">
+        <div class="stat-label">Payments Paid</div>
+        <p class="stat-value">PKR @Model.PaymentsPaid.ToString("N0")</p>
+        <span class="stat-hint">Cash out to suppliers</span>
+    </div>
+</div>
+
+<div class="two-col-equal">
+    <div class="section-card">
+        <div class="section-header"><h3>Sales − Purchases</h3></div>
+        <p class="stat-value @(Model.SalesMinusPurchases >= 0 ? "amount-in" : "amount-out")">PKR @Model.SalesMinusPurchases.ToString("N0")</p>
+    </div>
+    <div class="section-card">
+        <div class="section-header"><h3>Net Cash Flow</h3></div>
+        <p class="stat-value @(Model.NetCash >= 0 ? "amount-in" : "amount-out")">PKR @Model.NetCash.ToString("N0")</p>
+        <span class="stat-hint">Received − Paid</span>
+    </div>
+</div>
