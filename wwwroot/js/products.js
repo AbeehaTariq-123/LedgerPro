@@ -1,0 +1,3 @@
+﻿const productToken = () => $('input[name="__RequestVerificationToken"]').val();
+function loadProducts() { $.get('/Product/GetAll').done(rows => { const body = $('#productTable tbody').empty(); rows.forEach(p => body.append(`<tr><td>${p.productId}</td><td>${$('<div>').text(p.productName).html()}</td><td>${p.stockQuantity}</td><td>${p.salePrice}</td><td><button type="button" onclick="deleteProduct(${p.productId})">Delete</button></td></tr>`)); }); }
+function deleteProduct(id) { if (!confirm('Delete this product?')) return; $.post('/Product/Delete', { id, __RequestVerificationToken: productToken() }).done(loadProducts).fail(() => alert('Delete failed.')); } $(loadProducts);

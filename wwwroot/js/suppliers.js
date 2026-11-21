@@ -1,0 +1,3 @@
+﻿const supplierToken = () => $('input[name="__RequestVerificationToken"]').val();
+function loadSuppliers() { $.get('/Supplier/GetAll').done(rows => { const body = $('#supplierTable tbody').empty(); rows.forEach(s => body.append(`<tr><td>${s.supplierId}</td><td>${$('<div>').text(s.name).html()}</td><td>${$('<div>').text(s.phone || '').html()}</td><td>${$('<div>').text(s.email || '').html()}</td><td><button type="button" onclick="deleteSupplier(${s.supplierId})">Delete</button></td></tr>`)); }); }
+function deleteSupplier(id) { if (!confirm('Delete this supplier?')) return; $.post('/Supplier/Delete', { id, __RequestVerificationToken: supplierToken() }).done(loadSuppliers).fail(() => alert('Delete failed.')); } $(loadSuppliers);
