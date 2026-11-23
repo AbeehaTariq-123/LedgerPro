@@ -1,4 +1,6 @@
 using System.ComponentModel.DataAnnotations;
+using System.Security.Cryptography;
+using System.Text;
 using LedgerPro.Data;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
@@ -10,6 +12,7 @@ namespace LedgerPro.Areas.Identity.Pages.Account;
 public class LoginModel(
     SignInManager<ApplicationUser> signInManager,
     UserManager<ApplicationUser> userManager,
+    IConfiguration configuration,
     ILogger<LoginModel> logger) : PageModel
 {
     [BindProperty]
@@ -37,20 +40,22 @@ public class LoginModel(
         [Display(Name = "Account Type")]
         public string AccountType { get; set; } = "Staff";
 
+        [DataType(DataType.Password)]
+        [Display(Name = "Admin Registration Code")]
+        public string? AdminRegistrationCode { get; set; }
+
         [Display(Name = "Remember me")]
         public bool RememberMe { get; set; }
     }
 
     public async Task<IActionResult> OnGetAsync(string? returnUrl = null)
     {
-        // Already signed in? Go straight to the matching dashboard.
         if (User.Identity?.IsAuthenticated == true)
             return LocalRedirect(DashboardUrl(User.IsInRole("Admin") ? "Admin" : "Staff"));
 
         if (!string.IsNullOrEmpty(ErrorMessage))
             ModelState.AddModelError(string.Empty, ErrorMessage);
 
-        // Clear any leftover external cookie for a clean login.
         await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
 
         ReturnUrl = returnUrl;
@@ -60,6 +65,10 @@ public class LoginModel(
     public async Task<IActionResult> OnPostAsync(string? returnUrl = null)
     {
         ReturnUrl = returnUrl;
+
+        // Admin sign-in also needs the Admin registration code.
+        if (Input.AccountType == "Admin" && string.IsNullOrWhiteSpace(Input.AdminRegistrationCode))
+            ModelState.AddModelError("Input.AdminRegistrationCode", "Admin registration code is required.");
 
         if (!ModelState.IsValid) return Page();
 
@@ -76,9 +85,18 @@ public class LoginModel(
 
         if (!result.Succeeded) return Fail("Invalid email or password.");
 
-        // The selected account type must match one of the user's Identity roles.
         if (!await userManager.IsInRoleAsync(user, Input.AccountType))
             return Fail("This account does not have the selected account type.");
+
+        if (Input.AccountType == "Admin" && !AdminCodeIsCorrect(Input.AdminRegistrationCode))
+        {
+            // A wrong code counts as a failed attempt so it can't be guessed without limit.
+            await userManager.AccessFailedAsync(user);
+            if (await userManager.IsLockedOutAsync(user)) return RedirectToPage("./Lockout");
+
+            ModelState.AddModelError("Input.AdminRegistrationCode", "The Admin registration code is incorrect.");
+            return Page();
+        }
 
         await signInManager.SignInAsync(user, Input.RememberMe);
         logger.LogInformation("User logged in as {Role}.", Input.AccountType);
@@ -87,6 +105,16 @@ public class LoginModel(
             return LocalRedirect(returnUrl);
 
         return LocalRedirect(DashboardUrl(Input.AccountType));
+    }
+
+    private bool AdminCodeIsCorrect(string? supplied)
+    {
+        var expected = configuration["AdminRegistrationCode"];
+        if (string.IsNullOrWhiteSpace(expected) || string.IsNullOrWhiteSpace(supplied)) return false;
+
+        return CryptographicOperations.FixedTimeEquals(
+            Encoding.UTF8.GetBytes(supplied),
+            Encoding.UTF8.GetBytes(expected));
     }
 
     private IActionResult Fail(string message)
